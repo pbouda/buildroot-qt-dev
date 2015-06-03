@@ -19,9 +19,8 @@ never was easier!
 * Qt project: http://www.qt.io/
 
 As an example project you can check out
-[Die Hummbere](http://brummbeere.readthedocs.org/en/latest/), which boots the
-Raspberry directly into a Qt ownCould music player. I use to hang out on IRC at
-\#buildroot and \#qt if you have any questions or comments.
+[Die Brummbere](http://brummbeere.readthedocs.org/en/latest/), which boots the
+Raspberry directly into a Qt ownCould music player.
 
 
 ## License
@@ -136,10 +135,83 @@ hours. Just run:
     $ make
 
 
-## Install root filesystem on Raspberry
+## Install root filesystem on SD card for Raspberry
+
+In this step we will install the root file system on a SD card that will boot
+a Raspberry. Buildroot put the file system into a folder `output/images`. We
+will extract the image from there. But first, we have to prepare the SD card
+with a specific partition layout for the Raspberry.
+
+
+### Prepare SD card
+
+The SD card has to co be prepared with a certain partition layout in order to
+be bootable on the Raspberry. The standard layout is a small FAT partition and
+a larger ext4 partition in this order. The easiest way to get prepare the card
+in this way is to install a standard Raspbian on the card. This will also
+install the mandatory binary firmware and license to boot the Raspberry. You
+can find information about the process on the Raspberry download page:
+
+https://www.raspberrypi.org/downloads/
+
+Just follow the instructions given on the page under the Raspbian heading.
+
+
+### Modify and run installation script
+
+To install the root file system we will now format the second partition on the
+SD card with an ext4 file system and copy the Buildroot kernel onto the first
+FAT partition. The repository has file `script/installrootfs.sh` that executes
+all commands. This script needs to know the device of your SD card. Please check
+carefully which device your SD card uses and adapt the script. Currently the
+device for the SD card is `/dev/sdX`. Change those device names to your setup
+*in all locations*.
+
+If your SD card is still mounted from the previous step you might just call
+`mount` to see a list of all file systems. Find your SD card in this list and
+use the device names that are listed (like `/dev/sdc1` and `/dev/sdc2`).
+
+*Careful: Your SD card has to prepared with the two Raspberry partitions and
+should be mounted for the following steps. If you do not edit the script
+`installrootfs.sh` with the correct device names your hard disk might get
+formatted!*
+
+You can now run the script. The script expects the path to the root file system
+image and the kernel as the first argument. Buildroot puts those in the folder
+`output/images`. So change directory into `scripts` and run `installrootfs.sh`
+with the absolute path to your `buildroot-2015.05/output/images` folder:
+
+    $ cd ../scripts/
+    $ ./installrootfs.sh /path/to/buildroot-qt-dev/buildroot-2015.05/output/images
+
+This will format, extract and copy. After the script finishes it is safe to
+remove the SD card from your computer and insert it into your Raspberry. Power
+on the Raspberry and see the system boot. If you attached a network cable
+you should be able open a shell via SSH. The username is `root` with password
+`raspi`. Here is a nice one liner to find your Raspberry on the network (needs
+`nmap` installed):
+
+    $ sudo nmap -sP 192.168.1.0/24 | awk '/^Nmap/{ip=$NF}/B8:27:EB/{print ip}'
+
+[via [pierre-o's Known](https://microblog.pierre-o.fr/2015/one-liner-to-find-raspberrypi-on-your-local-network)]
 
 
 ## Compile Qt applications
+
+You can now use the Buildroot `qmake` executable to generate your Qt project.
+The command is available in Buildroot's `output/host/usr/bin` directory.
+
+As an example, we will compile the project Die Brummbeere. Just check out the
+code, run `qmake` followed by `make`:
+
+    $ cd ..
+    $ git clone https://github.com/pbouda/brummbeere.git
+    $ cd brummbeere/src/
+    $ ../../buildroot-2015.05/output/host/usr/bin/qmake Brummbeere.pro
+    $ make
+
+This will build the executable `brummbeere` in the `mainapp` directory. You can
+now copy the executable to the Raspbery and run Die Brummbeere.
 
 
 ## Set up Qt Creator
