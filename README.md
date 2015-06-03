@@ -7,13 +7,13 @@ is the Raspberry Pi (A, B(+) and 2).
 The following procedure will create a Buildroot environment that allows you to
 compile Qt applications for the platforms supported by Buildroot. It will also
 create a root filesystem for the target platform that contains a basic embedded
-Linux environment and the Qt libraries. If you want to use the root filesystem
+Linux environment and the Qt libraries. If you want to use the root file system
 you will need a SD card. This repository contains an installation script for
-the Raspberry Pi partition layout that will copy the root filesystem to the SD
+the Raspberry Pi partition layout that will copy the root file system to the SD
 card. It starts the Buildroot Linux system with an SSH daemon. This setup
 allows you to develop Qt applications with the Qt Creator on your host system
 and then deploy to the Raspberry. Developing Qt applications for the Raspberry
-never was easier!
+has never been easier!
 
 * Buildroot project: http://buildroot.net/
 * Qt project: http://www.qt.io/
@@ -48,7 +48,7 @@ Network connections via SSL/TLS are supported.
 
 For graphical output the system supports LinuxFB and EGLFS. The latter is the
 default. For more information about the configuration of the platform plugins
-and Qt on embedded platform please visit:
+and Qt on embedded platforms please visit:
 
 http://doc.qt.io/qt-5/embedded-linux.html
 
@@ -60,7 +60,7 @@ tools and the init system. It is a very basic system that you may adapt to your
 needs via the Buildroot configuration system. Besides Qt, the following
 libraries and applications are built and installed:
 
-* Several SSL/TLS libaries
+* SSL/TLS libaries
 * Image format libraries (JPEG, PNG, etc.)
 * Some fonts
 * GStreamer with ALSA support (for the Qt multimedia module)
@@ -70,13 +70,14 @@ libraries and applications are built and installed:
 You can see a full list of the packages that are enabled in the file
 `config/buildroot-raspi.conf`.
 
-In addition to Buildroot's default init scripts there a two daemons started:
+In addition to Buildroot's default init scripts the scripts of this repository
+install and start two daemons:
 
 * An NTP daemon to set the current date/time
 * The Dropbear SSH daemon
 
 The script in `scripts/postbuild.sh` is responsible to copy the two init scripts
-to the root filesystem after building everything. It is automatically called
+to the root file system after building everything. It is automatically called
 by Buildroot. The two init scripts are in `userland/target`.
 
 
@@ -110,35 +111,38 @@ Buildroot configuration file to set all options that we need. Enter the
 If you want to build the system for Raspberry A/B(+) then choose the "-raspi"
 configuration file during this step:
 
-    $ cd buildroot
+    $ cd buildroot-2015.05
     $ make defconfig BR2_DEFCONFIG=../config/buildroot-raspi.conf
 
 
 ### Adding NTP daemon
 
-As the Raspberry does not have a realtime clock, our embedded system start an
-NTP daemon to set the current date and time. Qt will use the date to validate
-the SSL certificate of your ownCloud server, if the connection is encrypted.
-As the embedded system uses buildroot's busybox, we will just add the ``ntpd``
-option to the busybox configuration. Start the menu configuration of busybox:
+As the Raspberry does not have a realtime clock, our embedded system will start
+an NTP daemon to set the current date and time. Qt will use the date to validate
+the SSL certificate, for example. As the embedded system uses buildroot's
+busybox, we will just add the ``ntpd`` option to the busybox configuration.
+Start the menu configuration of busybox:
 
     $ make busybox-menuconfig
 
 In the menu choose the option `Networking Utilities -> ntpd`. Exit and save.
 
+
 ### Start the build process
 
-You can now start the build process. This will download and build Linux and all
-libraries and applications. The whole procedure might take a while, up to a few
-hours. Just run:
+You can now start the build process. This will download and build the toolchain,
+Linux and all libraries and applications. The whole procedure might take a
+while, up to a few hours. Just run:
 
     $ make
+
+Buildroot will put all results of the build process in the folder `output`.
 
 
 ## Install root filesystem on SD card for Raspberry
 
 In this step we will install the root file system on a SD card that will boot
-a Raspberry. Buildroot put the file system into a folder `output/images`. We
+the Raspberry. Buildroot put the file system into a folder `output/images`. We
 will extract the image from there. But first, we have to prepare the SD card
 with a specific partition layout for the Raspberry.
 
@@ -147,34 +151,33 @@ with a specific partition layout for the Raspberry.
 
 The SD card has to co be prepared with a certain partition layout in order to
 be bootable on the Raspberry. The standard layout is a small FAT partition and
-a larger ext4 partition in this order. The easiest way to get prepare the card
-in this way is to install a standard Raspbian on the card. This will also
-install the mandatory binary firmware and license to boot the Raspberry. You
-can find information about the process on the Raspberry download page:
+a larger ext4 partition in this order. The easiest way to prepare the card is
+to install a standard Raspbian on the card. This will also install the
+mandatory binary firmware and license to boot the Raspberry. You can find
+information about the process on the Raspberry download page:
 
 https://www.raspberrypi.org/downloads/
 
-Just follow the instructions given on the page under the Raspbian heading.
+Just follow the instructions given on the page under the `Raspbian` heading.
 
 
 ### Modify and run installation script
 
 To install the root file system we will now format the second partition on the
-SD card with an ext4 file system and copy the Buildroot kernel onto the first
-FAT partition. The repository has file `script/installrootfs.sh` that executes
-all commands. This script needs to know the device of your SD card. Please check
-carefully which device your SD card uses and adapt the script. Currently the
-device for the SD card is `/dev/sdX`. Change those device names to your setup
-*in all locations*.
+SD card with an ext4 file system, extract the file system that Buildroot created
+and copy the Buildroot kernel onto the first FAT partition. The repository
+contains the file `script/installrootfs.sh` that executes all commands. The
+script needs to know the device of your SD card. Please check carefully which
+device your SD card uses and adapt the script. Currently the device for the SD
+card is `/dev/sdX`. Change those device names to your setup *in all locations*.
 
 If your SD card is still mounted from the previous step you might just call
 `mount` to see a list of all file systems. Find your SD card in this list and
 use the device names that are listed (like `/dev/sdc1` and `/dev/sdc2`).
 
-*Careful: Your SD card has to prepared with the two Raspberry partitions and
-should be mounted for the following steps. If you do not edit the script
-`installrootfs.sh` with the correct device names your hard disk might get
-formatted!*
+*Careful: Your SD card has to prepared with the two Raspberry partitions. If
+you do not edit the script `installrootfs.sh` with the correct device names
+your hard disk might get formatted!*
 
 You can now run the script. The script expects the path to the root file system
 image and the kernel as the first argument. Buildroot puts those in the folder
