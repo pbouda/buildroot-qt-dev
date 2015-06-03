@@ -54,18 +54,19 @@ and Qt on embedded platform please visit:
 http://doc.qt.io/qt-5/embedded-linux.html
 
 
-## Embedded Linux enviroment and apps
+## Embedded Linux libraries and applications
 
-The Linux system uses busybox for most command line tools and the init system.
-It is a very basic system that you may adapt to your needs via the Buildroot
-configuration system. Besides Qt, the following applications are installed:
+The Linux system uses [busybox](http://www.busybox.net/) for most command line
+tools and the init system. It is a very basic system that you may adapt to your
+needs via the Buildroot configuration system. Besides Qt, the following
+libraries and applications are built and installed:
 
 * Several SSL/TLS libaries
 * Image format libraries (JPEG, PNG, etc.)
 * Some fonts
-* GStreamer (for the Qt multimedia module)
+* GStreamer with ALSA support (for the Qt multimedia module)
 * Dropbear SSH (to be able to connect to the device and use Qt Creator later)
-* rpi-firmware and rpi-userland (for OpenGL support)
+* rpi-firmware and rpi-userland (for OpenGL support on the Raspberry)
 
 You can see a full list of the packages that are enabled in the file
 `config/buildroot-raspi.conf`.
@@ -77,10 +78,43 @@ In addition to Buildroot's default init scripts there a two daemons started:
 
 The script in `scripts/postbuild.sh` is responsible to copy the two init scripts
 to the root filesystem after building everything. It is automatically called
-by Buildroot.
+by Buildroot. The two init scripts are in `userland/target`.
 
 
 ## Build everything
+
+In this step we will build a complete Linux system including the kernel and the
+Qt libraries.
+
+
+### Buildroot configuration
+
+First you need to download this repository and Buildroot. We will use the
+the current release `2015-05` of Buildroot, which is the first release that
+supports the Raspberry 2. Just download and unpack Buildroot into your clone of
+`buildroot-qt-dev`:
+
+    $ git clone https://github.com/pbouda/buildroot-qt-dev.git
+    $ cd buildroot-qt-dev
+    $ wget http://buildroot.net/downloads/buildroot-2015.05.tar.bz2
+    $ tar xjvf buildroot-2015.05.tar.bz2
+
+
+In the next step we configure buildroot for the Raspberry Pi 2 and a complete
+Qt framework with dependencies like GStreamer. The folder `config` contains a
+Buildroot configuration file to set all options that we need. Enter the
+``buildroot`` folder and load the configuration:
+
+    $ cd buildroot-2015.05
+    $ make defconfig BR2_DEFCONFIG=../config/buildroot-raspi2.conf
+
+If you want to build the system for Raspberry A/B(+) then choose the "raspi"
+configuration file during this step:
+
+.. code-block:: sh
+
+   $ cd buildroot
+   $ make defconfig BR2_DEFCONFIG=../config/buildroot-raspi2.conf
 
 
 ## Install root filesystem on Raspberry
