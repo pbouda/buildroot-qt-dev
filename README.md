@@ -111,10 +111,29 @@ Buildroot configuration file to set all options that we need. Enter the
 If you want to build the system for Raspberry A/B(+) then choose the "raspi"
 configuration file during this step:
 
-.. code-block:: sh
+    $ cd buildroot
+    $ make defconfig BR2_DEFCONFIG=../config/buildroot-raspi2.conf
 
-   $ cd buildroot
-   $ make defconfig BR2_DEFCONFIG=../config/buildroot-raspi2.conf
+
+### Adding NTP daemon
+
+As the Raspberry does not have a realtime clock, our embedded system start an
+NTP daemon to set the current date and time. Qt will use the date to validate
+the SSL certificate of your ownCloud server, if the connection is encrypted.
+As the embedded system uses buildroot's busybox, we will just add the ``ntpd``
+option to the busybox configuration. Start the menu configuration of busybox:
+
+    $ make busybox-menuconfig
+
+In the menu choose the option ``Networking Utilities -> ntpd``. Exit and save.
+
+### Start the build process
+
+You can now start the build process. This will download and build Linux and all
+libraries and applications. The whole procedure might take a while, up to a few
+hours. Just run:
+
+    $ make
 
 
 ## Install root filesystem on Raspberry
