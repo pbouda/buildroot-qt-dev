@@ -103,16 +103,16 @@ supports the Raspberry 2. Just download and unpack Buildroot into your clone of
 In the next step we configure buildroot for the Raspberry Pi 2 and a complete
 Qt framework with dependencies like GStreamer. The folder `config` contains a
 Buildroot configuration file to set all options that we need. Enter the
-``buildroot`` folder and load the configuration:
+`buildroot-2015.05` folder and load the configuration:
 
     $ cd buildroot-2015.05
     $ make defconfig BR2_DEFCONFIG=../config/buildroot-raspi2.conf
 
-If you want to build the system for Raspberry A/B(+) then choose the "raspi"
+If you want to build the system for Raspberry A/B(+) then choose the "-raspi"
 configuration file during this step:
 
     $ cd buildroot
-    $ make defconfig BR2_DEFCONFIG=../config/buildroot-raspi2.conf
+    $ make defconfig BR2_DEFCONFIG=../config/buildroot-raspi.conf
 
 
 ### Adding NTP daemon
@@ -125,7 +125,7 @@ option to the busybox configuration. Start the menu configuration of busybox:
 
     $ make busybox-menuconfig
 
-In the menu choose the option ``Networking Utilities -> ntpd``. Exit and save.
+In the menu choose the option `Networking Utilities -> ntpd`. Exit and save.
 
 ### Start the build process
 
@@ -143,3 +143,5 @@ hours. Just run:
 
 
 ## Set up Qt Creator
+
+TODO
