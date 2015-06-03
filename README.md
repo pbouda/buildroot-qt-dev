@@ -21,7 +21,7 @@ never was easier!
 As an example project you can check out
 [Die Hummbere](http://brummbeere.readthedocs.org/en/latest/), which boots the
 Raspberry directly into a Qt ownCould music player. I use to hang out on IRC at
-#buildroot and #qt if you have any questions or comments.
+\#buildroot and \#qt if you have any questions or comments.
 
 
 ## License
