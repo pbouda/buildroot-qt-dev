@@ -1,0 +1,55 @@
+#!/bin/sh
+
+set -e
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+DAEMON=/sbin/udhcpc
+
+test -x $DAEMON || exit 0
+
+case "$1" in
+  start)
+    echo -n "Starting DHCP client: udhcpc"
+    sleep 2
+    start-stop-daemon --start -b --quiet --exec $DAEMON \
+      -- --script=/usr/share/udhcpc/default.script || \
+    echo -n " already running"
+    echo "."
+  ;;
+
+  restart)
+    /etc/init.d/S41udhcpc start
+    /etc/init.d/S41udhcpc stop
+  ;;
+
+  reload)
+  ;;
+
+  force-reload)
+  ;;
+
+  stop)
+    echo -n "Stopping DHCP client: udhcpc"
+    start-stop-daemon --stop --quiet --exec $DAEMON || \
+    echo -n " not running"
+    echo "."
+  ;;
+
+  renew)
+    start-stop-daemon --signal USR1 --stop --quiet --exec $DAEMON || \
+    echo -n " not running"
+  ;;
+
+  release)
+    start-stop-daemon --signal USR2 --stop --quite --exec $DAEMON || \
+    echo -n " not running"
+  ;;
+
+  *)
+    echo "Usage /etc/init.d/udhcpc \
+    {start|stop|restart|reload|force-reload}"
+    exit 1
+  ;;
+esac
+
+exit 0
