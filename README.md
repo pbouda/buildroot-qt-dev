@@ -115,19 +115,6 @@ configuration file during this step:
     $ make defconfig BR2_DEFCONFIG=../config/buildroot-raspi.conf
 
 
-### Adding NTP daemon
-
-As the Raspberry does not have a realtime clock, our embedded system will start
-an NTP daemon to set the current date and time. Qt will use the date to validate
-the SSL certificate, for example. As the embedded system uses buildroot's
-busybox, we will just add the ``ntpd`` option to the busybox configuration.
-Start the menu configuration of busybox:
-
-    $ make busybox-menuconfig
-
-In the menu choose the option `Networking Utilities -> ntpd`. Exit and save.
-
-
 ### Start the build process
 
 You can now start the build process. This will download and build the toolchain,
