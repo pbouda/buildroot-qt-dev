@@ -26,9 +26,7 @@ Raspberry directly into a Qt ownCould music player.
 ## License
 
 Buildroot-Qt-Dev source code is distributed under the GNU GENERAL PUBLIC LICENSE
-Version 2.
-
-Buildroot-Qt-Dev documentation is Public Domain.
+Version 3.
 
 
 ## Qt features and modules
