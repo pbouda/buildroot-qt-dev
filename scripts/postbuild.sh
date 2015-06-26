@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Start DHCP..."
-install -m 755 ../userland/target/S41udhcpc $1/etc/init.d/
+echo "Add network interface with DHCP..."
+install ../userland/target/interfaces $1/etc/network/
 
 
