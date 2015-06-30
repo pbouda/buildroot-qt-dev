@@ -28,6 +28,18 @@ Raspberry directly into a Qt ownCould music player.
 Buildroot-Qt-Dev source code is distributed under the GNU GENERAL PUBLIC LICENSE
 Version 3.
 
+## Qickstart
+
+The repository contains a shell script that will execute all the steps that I
+describe below. To build the Buildroot environment in one step just type:
+
+    $ ./build.sh
+
+This will build everything for the Raspberry 2. You can pass a parameter `raspi`
+to the script to build for Raspberry A/B(+):
+
+    $ ./build.sh raspi
+
 
 ## Qt features and modules
 
