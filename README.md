@@ -40,6 +40,9 @@ to the script to build for Raspberry A/B(+):
 
     $ ./build.sh raspi
 
+After the build is done you can directly jump to the [section to install the
+root filesystem on your SD
+card](#install-root-filesystem-on-sd-card-for-raspberry).
 
 ## Qt features and modules
 
