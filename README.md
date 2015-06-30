@@ -92,8 +92,8 @@ You can see a full list of the packages that are enabled in the file
 In addition to Buildroot's default init scripts the scripts of this repository
 install and start two daemons:
 
-* An NTP daemon to set the current date/time
-* The Dropbear SSH daemon
+* An NTP client to set the current date/time
+* The OpenSSH daemon
 
 The script in `scripts/postbuild.sh` is responsible to copy the two init scripts
 to the root file system after building everything. It is automatically called
