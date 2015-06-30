@@ -40,6 +40,10 @@ to the script to build for Raspberry A/B(+):
 
     $ ./build.sh raspi
 
+There are two experimental configurations that use systemd instead of busybox
+as init system. Those are called `raspi2-systemd` and `raspi-systemd`. The
+simpler and default busybox init system should work fine for most use cases.
+
 After the build is done you can directly jump to the [section to install the
 root filesystem on your SD
 card](#install-root-filesystem-on-sd-card-for-raspberry).
@@ -77,7 +81,9 @@ libraries and applications are built and installed:
 * Image format libraries (JPEG, PNG, etc.)
 * Some fonts
 * GStreamer with ALSA support (for the Qt multimedia module)
-* Dropbear SSH (to be able to connect to the device and use Qt Creator later)
+* OpenSSH (to be able to connect to the device and use Qt Creator later)
+* NTP client (to synchronize time, as the Raspberry does not have a real-time
+    clock)
 * rpi-firmware and rpi-userland (for OpenGL support on the Raspberry)
 
 You can see a full list of the packages that are enabled in the file
