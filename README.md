@@ -204,4 +204,12 @@ now copy the executable to the Raspbery and run Die Brummbeere.
 
 ## Set up Qt Creator
 
-TODO
+See [doc/qtcreator.md](https://github.com/pbouda/buildroot-qt-dev/blob/master/doc/qtcreator.md).
+
+
+## Need help?
+
+Contact me here: http://www.peterbouda.eu/#contact
+
+I am available to hire, contact me if you need a programmer for your Embedded
+Qt project!
