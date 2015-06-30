@@ -90,7 +90,7 @@ left pane of Qt Creator and choose the `Run` tab of the Raspberry kit:
 ![Screen of Qt Creator dialog for Run settings](images/qt_creator_projects.png)
 
 Under the heading `Run` you will find the setting for the `Working directory`.
-Enter `/opt/Brummbeere` into the input field:
+Enter `/opt/brummbeere` into the input field:
 
 ![Screen of Qt Creator dialog for Working directory](images/qt_creator_workingdir.png)
 
