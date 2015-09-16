@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! $# = 2 ]; then
+  echo 'Error: '$0' requires 2 arguments'
+  exit 1
+fi
+
 echo "Installing root fs..."
 umount $11
 umount $12
