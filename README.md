@@ -30,6 +30,10 @@ Version 3.
 
 ## Qickstart
 
+_**Note:** Using GCC >= 5.0.0 can cause problems when compiling certain packages like ncurses and etc. Using GCC 4.9.x is highly recommended._
+
+It is highly recommended that you read through the entire document before pasting the commands in your terminal.
+
 The repository contains a shell script that will execute all the steps that I
 describe below. To build the Buildroot environment in one step just type:
 
@@ -173,25 +177,23 @@ To install the root file system we will now format the second partition on the
 SD card with an ext4 file system, extract the file system that Buildroot created
 and copy the Buildroot kernel onto the first FAT partition. The repository
 contains the file `script/installrootfs.sh` that executes all commands. The
-script needs to know the device of your SD card. Please check carefully which
-device your SD card uses and adapt the script. Currently the device for the SD
-card is `/dev/sdX`. Change those device names to your setup *in all locations*.
+script needs to know the device of your SD card.
 
 If your SD card is still mounted from the previous step you might just call
 `mount` to see a list of all file systems. Find your SD card in this list and
 use the device names that are listed (like `/dev/sdc1` and `/dev/sdc2`).
 
-*Careful: Your SD card has to prepared with the two Raspberry partitions. If
+**Warning:** _Your SD card has to prepared with the two Raspberry partitions. If
 you do not edit the script `installrootfs.sh` with the correct device names
-your hard disk might get formatted!*
+your hard disk might get formatted!_
 
-You can now run the script. The script expects the path to the root file system
-image and the kernel as the first argument. Buildroot puts those in the folder
-`output/images`. So change directory into `scripts` and run `installrootfs.sh`
-with the absolute path to your `buildroot-2015.05/output/images` folder:
+You can now run the script. The script expects the path to the SD Card device
+and the path to the root file system image and the kernel as the first argument.
+Buildroot puts those in the folder `output/images`. So change directory into `scripts`
+and run `installrootfs.sh` with the absolute path to your `buildroot-2015.05/output/images` folder:
 
     $ cd ../scripts/
-    $ ./installrootfs.sh /path/to/buildroot-qt-dev/buildroot-2015.05/output/images
+    $ ./installrootfs.sh /dev/sdX /path/to/buildroot-qt-dev/buildroot-2015.05/output/images
 
 This will format, extract and copy. After the script finishes it is safe to
 remove the SD card from your computer and insert it into your Raspberry. Power
